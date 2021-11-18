@@ -8,6 +8,8 @@ import {
   Put,
   Query,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import { TaskDTO } from "./dto/task.dto";
 import { TaskService } from "./task.service";
@@ -17,6 +19,7 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   created(@Body() TaskDTO: TaskDTO) {
     return this.taskService.create(TaskDTO);
   }
