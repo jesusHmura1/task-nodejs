@@ -4,7 +4,7 @@ export class TaskDTO {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  description: string;
+  readonly description: string;
   @IsNotEmpty()
   @IsBoolean()
   readonly isDone: boolean;
