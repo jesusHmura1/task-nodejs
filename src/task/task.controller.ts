@@ -6,8 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
-  Req,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
