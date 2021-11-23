@@ -1,10 +1,25 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TaskModule } from './task/task.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { MongooseModule } from "@nestjs/mongoose";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { TaskModule } from "./task/task.module";
+import { UserModule } from "./user/user.module";
+import { PassengerModule } from './passenger/passenger.module';
+import { FlightModule } from './flight/flight.module';
 
 @Module({
-  imports: [TaskModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: [".env.development"],
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.URI_MONGODB),
+    TaskModule,
+    UserModule,
+    PassengerModule,
+    FlightModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
