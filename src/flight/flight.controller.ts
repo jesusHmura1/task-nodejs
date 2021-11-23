@@ -12,7 +12,9 @@ import {
 import { PassengerService } from "src/passenger/passenger.service";
 import { FlightDTO } from "./dto/flight.dto";
 import { FlightService } from "./flight.service";
+import { ApiTags, ApiOperation } from "@nestjs/swagger";
 
+@ApiTags("Flight")
 @Controller("api/v1/flight")
 export class FlightController {
   constructor(
@@ -21,31 +23,37 @@ export class FlightController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: "Created new Fligts" })
   create(@Body() flightDTO: FlightDTO) {
     return this.flightService.created(flightDTO);
   }
 
   @Get()
+  @ApiOperation({ summary: "Get all Fligts" })
   findAll() {
     return this.flightService.findAll();
   }
 
   @Get(":id")
+  @ApiOperation({ summary: "Get one Fligt" })
   findById(@Param("id") id: string) {
     return this.flightService.findById(id);
   }
 
   @Put(":id")
+  @ApiOperation({ summary: "Update flight" })
   update(@Param("id") id: string, @Body() flightDTO: FlightDTO) {
     return this.flightService.update(id, flightDTO);
   }
 
   @Delete(":id")
+  @ApiOperation({ summary: "Deleted Fligt" })
   delete(@Param("id") id: string) {
     return this.flightService.delete(id);
   }
 
   @Post(":flightId/passenger/:passengerID")
+  @ApiOperation({ summary: "Add passenger to flight" })
   async addPassangerToFlight(
     @Param("flightId") flightId: string,
     @Param("passengerID") passengerID: string
