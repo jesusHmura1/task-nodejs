@@ -11,7 +11,6 @@ export class AllExceptionFilter implements ExceptionFilter{
         const request = ctx.getRequest();
 
         const status = exception instanceof HttpException ?  exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-        console.log(status);
         const msg =  exception instanceof HttpException ? exception.getResponse() : exception;
         
         this.logger.error(`Status: ${status} Error: ${JSON.stringify(msg)}`)
