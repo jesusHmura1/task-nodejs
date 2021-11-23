@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { TaskDTO } from "./dto/task.dto";
-import { ITask, StatusItask } from "src/commons/interface/task";
+import { ITask, StatusItask } from "src/commons/interfaces/task.interfaces";
 import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
