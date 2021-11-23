@@ -19,19 +19,29 @@ export class FlightService {
     const { data } = await axios.get(
       `https://www.metaweather.com/api/location/search/?query=${destinationCity}`
     );
-
     return data[0];
   }
 
   async getWeather(woeid: number, flightDate: Date): Promise<IWeather[]> {
-    const dateFormat = moment.utc(flightDate).format();
-    const year = dateFormat.substring(0, 4);
-    const month = dateFormat.substring(5, 7);
-    const day = dateFormat.substring(8, 10);
     const { data } = await axios.get(
-      `https://www.metaweather.com/api/location/${woeid}/${year}/${month}/${day}`
+      `https://www.metaweather.com/api/location/${woeid}`
     );
     return data;
+  }
+
+  assign(
+    { _id, pilot, airplaine, destinationCity, flightDate, passengers }: IFlight,
+    weather: IWeather[]
+  ): IFlight {
+    return Object.assign({
+      _id,
+      pilot,
+      airplaine,
+      destinationCity,
+      flightDate,
+      passengers,
+      weather,
+    });
   }
 
   async created(flightDTO: FlightDTO): Promise<IFlight> {
@@ -44,19 +54,24 @@ export class FlightService {
   }
 
   async findById(id: string): Promise<IFlight> {
-    const flight = this.model.findById(id).populate("passengers");
+    const flight = await this.model.findById(id).populate("passengers");
     const location: ILocation = await this.getLocation(
       (
         await flight
       ).destinationCity
     );
-    const weather: IWeather[] = await this.getWeather(
-      location.woeid,
-      (
-        await flight
-      ).flightDate
-    );
-    return await flight;
+    if (location){
+      const weather: IWeather[] = await this.getWeather(
+        location.woeid,
+        (
+          await flight
+        ).flightDate
+      );
+      console.log(weather);
+  
+      return this.assign(flight, weather);
+    }
+    return flight;
   }
 
   async update(id: string, flightDTO: FlightDTO): Promise<IFlight> {
