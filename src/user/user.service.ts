@@ -34,8 +34,16 @@ export class UserService {
     return await this.model.findByIdAndUpdate(id, user, { new: true });
   }
 
-  async delete(id) {
+  async delete(id: string) {
     await this.model.findByIdAndDelete(id);
     return { status: HttpStatus.OK, msg:'elemento eliminado con exito'}
+  }
+
+  async findByUserName(username: string){
+    return await this.model.findOne({username});
+  }
+
+  async checkPassword(password: string, userPassword: string): Promise<boolean> {
+    return await bcrypt.compare(password, userPassword);
   }
 }
