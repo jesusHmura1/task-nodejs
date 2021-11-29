@@ -6,15 +6,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
 import { TaskDTO } from "./dto/task.dto";
 import { TaskService } from "./task.service";
-import { ApiTags, ApiOperation } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { jwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 
 @ApiTags("Tasks")
 @Controller("api/v1/task")
+@ApiBearerAuth()
+@UseGuards(jwtAuthGuard)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 

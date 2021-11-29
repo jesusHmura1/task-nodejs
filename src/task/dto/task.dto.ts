@@ -1,4 +1,11 @@
-import { IsBoolean, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import {
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  MaxLength,
+} from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class TaskDTO {
@@ -11,4 +18,9 @@ export class TaskDTO {
   @IsNotEmpty()
   @IsBoolean()
   readonly isDone: boolean;
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsNumber()
+  @IsArray({ each: true }) // permite valildar cada uno de los casos dentro del array sea del tipo indicado
+  readonly case: number;
 }

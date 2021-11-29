@@ -16,12 +16,15 @@ async function bootstrap() {
     .setTitle("Document api Study")
     .setDescription("diferent api rest")
     .setVersion("1.0.0")
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
 
-  SwaggerModule.setup('/api/docs', app, document, {swaggerOptions: {
-    filter: true
-  }} );
-  await app.listen( process.env.PORT || 3000);
+  SwaggerModule.setup("/api/docs", app, document, {
+    swaggerOptions: {
+      filter: true,
+    },
+  });
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
